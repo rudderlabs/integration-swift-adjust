@@ -5,22 +5,35 @@ import PackageDescription
 
 let package = Package(
     name: "integration-swift-adjust",
+    platforms: [
+        .iOS(.v15),
+        .tvOS(.v15)
+    ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "integration-swift-adjust",
-            targets: ["integration-swift-adjust"]
+            name: "RudderIntegrationAdjust",
+            targets: ["RudderIntegrationAdjust"]
         ),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/adjust/ios_sdk", .upToNextMajor(from: "5.4.6")),
+        // TODO: Update rudder-sdk-swift dependency after the stable release of rudder-sdk-swift.
+        .package(url: "https://github.com/rudderlabs/rudder-sdk-swift.git", branch: "feat/sdk-502-make-standard-integration-public")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "integration-swift-adjust"
+            name: "RudderIntegrationAdjust",
+            dependencies: [
+                .product(name: "AdjustSdk", package: "ios_sdk"),
+                .product(name: "RudderStackAnalytics", package: "rudder-sdk-swift")
+            ]
         ),
         .testTarget(
-            name: "integration-swift-adjustTests",
-            dependencies: ["integration-swift-adjust"]
+            name: "RudderIntegrationAdjustTests",
+            dependencies: ["RudderIntegrationAdjust"]
         ),
     ]
 )

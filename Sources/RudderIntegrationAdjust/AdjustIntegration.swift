@@ -9,17 +9,55 @@ import Foundation
 import AdjustSdk
 import RudderStackAnalytics
 
+// Adapter protocol for Adjust SDK
+public protocol AdjustSDKAdapter {
+    func initSDK(adjustConfig: ADJConfig?)
+    func track(event: ADJEvent)
+    func setPartnerParams(payload: Event)
+    func removeGlobalPartnerParameters()
+}
+
+class DefaultAdjustSDKAdapter: AdjustSDKAdapter {
+    func initSDK(adjustConfig: ADJConfig?) {
+        Adjust.initSdk(adjustConfig)
+    }
+    
+    func track(event: ADJEvent) {
+        Adjust.trackEvent(event)
+    }
+    
+    func setPartnerParams(payload: Event) {
+        if let anonymousId = payload.anonymousId {
+            Adjust.addGlobalPartnerParameter(anonymousId, forKey: "anonymousId")
+        }
+        if let userId = payload.userId, !userId.isEmpty {
+            Adjust.addGlobalPartnerParameter(userId, forKey: "userId")
+        }
+    }
+    
+    func removeGlobalPartnerParameters() {
+        Adjust.removeGlobalPartnerParameters()
+    }
+}
+
 /// Implements IntegrationPlugin and StandardIntegration protocols
 public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration, AdjustDelegate {
     // Required protocol properties
     public var pluginType: PluginType = .terminal
     public var analytics: Analytics?
     public var key: String = "adjust"
-
-    // Adjust SDK instance
-    private var adjustInstance: Adjust?
-    // Event mapping from customMappings
     private var eventMap: [String: String] = [:]
+
+    let adjustSDKAdapter: AdjustSDKAdapter
+    
+    init(adjustSDKAdapter: AdjustSDKAdapter) {
+        self.adjustSDKAdapter = adjustSDKAdapter
+        super.init()
+    }
+
+    public convenience override init() {
+        self.init(adjustSDKAdapter: DefaultAdjustSDKAdapter())
+    }
 
     // MARK: - Required Methods
     public func getDestinationInstance() -> Any? {
@@ -70,7 +108,7 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
         }
 
         // Initialize Adjust SDK
-        Adjust.initSdk(adjustConfig)
+        self.adjustSDKAdapter.initSDK(adjustConfig: adjustConfig)
         LoggerAnalytics.debug("AdjustIntegration: Initialized Adjust SDK with appToken: \(appToken)")
     }
 
@@ -80,7 +118,7 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
     }
 
     public func reset() {
-        Adjust.removeGlobalPartnerParameters()
+        self.adjustSDKAdapter.removeGlobalPartnerParameters()
     }
 
     // MARK: - Event Methods
@@ -99,7 +137,7 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
         }
 
         // Set partner params
-        self.setPartnerParams(payload: payload)
+        self.adjustSDKAdapter.setPartnerParams(payload: payload)
 
         // Create Adjust event
         guard let event = ADJEvent(eventToken: adjEventToken) else {
@@ -120,12 +158,12 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
         }
 
         // Track event
-        Adjust.trackEvent(event)
+        self.adjustSDKAdapter.track(event: event)
         LoggerAnalytics.debug("AdjustIntegration: Tracked event \(eventName), with token \(adjEventToken).")
     }
     
     public func identify(payload: IdentifyEvent) {
-        self.setPartnerParams(payload: payload)
+        self.adjustSDKAdapter.setPartnerParams(payload: payload)
     }
 }
 
@@ -147,20 +185,10 @@ extension AdjustIntegration {
         campaign.setIfNotNil("adGroup", attribution.adgroup)
         
         properties.setIfNotNil("campaign", campaign.isEmpty ? nil : campaign)
+        
         LoggerAnalytics.debug("Install Attributed event properties: \(properties)")
+        
         analytics?.track(name: "Install Attributed", properties: properties)
-    }
-}
-
-// MARK: - Helpers
-extension AdjustIntegration {
-    func setPartnerParams(payload: Event) {
-        if let anonymousId = payload.anonymousId {
-            Adjust.addGlobalPartnerParameter(anonymousId, forKey: "anonymousId")
-        }
-        if let userId = payload.userId, !userId.isEmpty {
-            Adjust.addGlobalPartnerParameter(userId, forKey: "userId")
-        }
     }
 }
 
@@ -170,4 +198,3 @@ extension Dictionary where Key == String, Value == Any {
         if let value { self[key] = value }
     }
 }
-

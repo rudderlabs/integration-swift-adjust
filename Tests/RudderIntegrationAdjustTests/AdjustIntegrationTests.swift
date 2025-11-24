@@ -1,6 +1,15 @@
+//  AdjustIntegrationTests.swift
+//  integration-swift-adjust
+//
+//  Created by Satheesh Kannan on 24/11/25.
+//
+
 import Testing
+import Foundation
+import AdjustSdk
+import RudderStackAnalytics
 @testable import RudderIntegrationAdjust
 
-@Test func example() async throws {
-    // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+struct AdjustIntegrationTests {
+    
 }

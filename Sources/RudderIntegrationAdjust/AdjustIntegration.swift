@@ -75,10 +75,6 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
     }
 
     // MARK: - Optional Methods (implement only if needed)
-    public func update(destinationConfig: [String: Any]) throws {
-        // Dynamic config update logic (optional)
-    }
-
     public func flush() {
         // No-op for Adjust
     }

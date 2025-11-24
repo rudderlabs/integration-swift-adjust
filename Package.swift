@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "integration-swift-adjust",
+    name: "RudderIntegrationAdjust",
     platforms: [
         .iOS(.v15),
         .tvOS(.v15)

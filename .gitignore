@@ -1,8 +1,49 @@
-.DS_Store
-/.build
-/Packages
+# Xcode
+#
+# gitignore contributors: Feel free to update this file as needed for the integrations.
+
+## User settings
 xcuserdata/
-DerivedData/
-.swiftpm/configuration/registries.json
-.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+
+## Obj-C/Swift specific
+*.hmap
+
+## App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+## Swift Package Manager
+/.build/
 .netrc
+.swiftpm/
+
+# Dependency management files (not needed for libraries)
+Packages/
+Package.pins
+Package.resolved
+
+# Example app build artifacts
+Example/.build
+
+# Since this repository includes an example project, the following items were removed. Re-enable them if needed.
+# *.xcodeproj
+# *.xcworkspace
+
+# Xcode user-specific files
+xcuserdata/
+*.xcuserstate
+DerivedData/
+
+# macOS and editor metadata
+.DS_Store
+*.swp
+*.swo
+*.tmp
+
+# Logs
+*.log

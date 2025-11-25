@@ -9,37 +9,6 @@ import Foundation
 import AdjustSdk
 import RudderStackAnalytics
 
-// Adapter protocol for Adjust SDK
-public protocol AdjustSDKAdapter {
-    func initSDK(adjustConfig: ADJConfig?)
-    func track(event: ADJEvent)
-    func setPartnerParams(payload: Event)
-    func removeGlobalPartnerParameters()
-}
-
-class DefaultAdjustSDKAdapter: AdjustSDKAdapter {
-    func initSDK(adjustConfig: ADJConfig?) {
-        Adjust.initSdk(adjustConfig)
-    }
-    
-    func track(event: ADJEvent) {
-        Adjust.trackEvent(event)
-    }
-    
-    func setPartnerParams(payload: Event) {
-        if let anonymousId = payload.anonymousId {
-            Adjust.addGlobalPartnerParameter(anonymousId, forKey: "anonymousId")
-        }
-        if let userId = payload.userId, !userId.isEmpty {
-            Adjust.addGlobalPartnerParameter(userId, forKey: "userId")
-        }
-    }
-    
-    func removeGlobalPartnerParameters() {
-        Adjust.removeGlobalPartnerParameters()
-    }
-}
-
 /// Implements IntegrationPlugin and StandardIntegration protocols
 public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration, AdjustDelegate {
     // Required protocol properties
@@ -72,13 +41,14 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
         }
 
         // Extract customMappings and build eventMap
-        eventMap = [:]
+        self.eventMap = [:]
         if let customMappings = destinationConfig["customMappings"] as? [[String: Any]] {
-            for mapping in customMappings {
-                if let from = mapping["from"] as? String, let to = mapping["to"] as? String {
-                    eventMap[from] = to
-                }
+            customMappings.compactMap { mapping -> (String, String)? in
+                guard let from = mapping["from"] as? String,
+                      let to = mapping["to"] as? String else { return nil }
+                return (from, to)
             }
+            .forEach { eventMap[$0] = $1 }
         }
 
         // Extract enableInstallAttributionTracking
@@ -89,7 +59,7 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
 
         // Create Adjust config
         let adjustConfig = ADJConfig(appToken: appToken, environment: environment)
-
+        
         // Set log level if provided
         if let logLevel = destinationConfig["logLevel"] as? Int {
             switch logLevel {
@@ -101,6 +71,8 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
             default: adjustConfig?.logLevel = ADJLogLevel.suppress
             }
         }
+        
+        adjustConfig?.logLevel = .debug
 
         // Set delegate for install attribution tracking if enabled
         if enableInstallAttributionTracking {
@@ -171,30 +143,27 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
 // Attribution callback from Adjust SDK
 extension AdjustIntegration {
     public func adjustAttributionChanged(_ attribution: ADJAttribution?) {
-        guard let attribution = attribution else { return }
-        
-        var properties: [String: Any] = ["provider": "Adjust"]
-        properties.setIfNotNil("trackerToken", attribution.trackerToken)
-        properties.setIfNotNil("trackerName", attribution.trackerName)
-        
-        var campaign: [String: Any] = [:]
-        campaign.setIfNotNil("source", attribution.network)
-        campaign.setIfNotNil("name", attribution.campaign)
-        campaign.setIfNotNil("content", attribution.clickLabel)
-        campaign.setIfNotNil("adCreative", attribution.creative)
-        campaign.setIfNotNil("adGroup", attribution.adgroup)
-        
-        properties.setIfNotNil("campaign", campaign.isEmpty ? nil : campaign)
-        
-        LoggerAnalytics.debug("Install Attributed event properties: \(properties)")
-        
-        analytics?.track(name: "Install Attributed", properties: properties)
-    }
-}
+        guard let attribution else { return }
 
-// MARK: - Dictionary
-extension Dictionary where Key == String, Value == Any {
-    mutating func setIfNotNil(_ key: String, _ value: Any?) {
-        if let value { self[key] = value }
+        let campaign: [String: Any] = [
+            "source": attribution.network,
+            "name": attribution.campaign,
+            "content": attribution.clickLabel,
+            "adCreative": attribution.creative,
+            "adGroup": attribution.adgroup
+        ].compactMapValues { $0 }
+
+        let properties: [String: Any] = [
+            "provider": "Adjust",
+            "trackerToken": attribution.trackerToken,
+            "trackerName": attribution.trackerName,
+            "campaign": campaign.isEmpty ? nil : campaign
+        ].compactMapValues { $0 }
+
+        LoggerAnalytics.debug("Install Attributed event properties: \(properties)")
+
+        self.analytics?.track(name: "Install Attributed", properties: properties)
+
+        self.adjustSDKAdapter.onAttributionChanged?(attribution)
     }
 }

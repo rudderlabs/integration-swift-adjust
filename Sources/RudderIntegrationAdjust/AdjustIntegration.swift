@@ -9,9 +9,11 @@ import Foundation
 import AdjustSdk
 import RudderStackAnalytics
 
-/// Implements IntegrationPlugin and StandardIntegration protocols
+// MARK: - AdjustIntegration
+/**
+ Adjust Integration for RudderStack Analytics.
+ */
 public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration, AdjustDelegate {
-    // Required protocol properties
     public var pluginType: PluginType = .terminal
     public var analytics: Analytics?
     public var key: String = "adjust"
@@ -19,11 +21,13 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
 
     let adjustSDKAdapter: AdjustSDKAdapter
     
+    // MARK: - Initializers
     init(adjustSDKAdapter: AdjustSDKAdapter) {
         self.adjustSDKAdapter = adjustSDKAdapter
         super.init()
     }
-
+    
+    // Convenience initializer using DefaultAdjustSDKAdapter
     public convenience override init() {
         self.init(adjustSDKAdapter: DefaultAdjustSDKAdapter())
     }
@@ -140,7 +144,9 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
 }
 
 // MARK: - AdjustDelegate
-// Attribution callback from Adjust SDK
+/**
+ Attribution callback from Adjust SDK
+ */
 extension AdjustIntegration {
     public func adjustAttributionChanged(_ attribution: ADJAttribution?) {
         guard let attribution else { return }

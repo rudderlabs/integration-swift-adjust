@@ -9,7 +9,8 @@ import AdjustSdk
 import RudderStackAnalytics
 @testable import RudderIntegrationAdjust
 
-// MARK: - Test Suite
+// MARK: - AdjustIntegration Tests
+
 @Suite("AdjustIntegration Tests", .serialized)
 class AdjustIntegrationTests {
     
@@ -23,7 +24,7 @@ class AdjustIntegrationTests {
     }
 
     // MARK: - create()
-    @Test("create() should initialize Adjust with correct config")
+    @Test("when create() is called, then it should initialize Adjust with correct config")
     func testCreateInitialization() throws {
         let config: [String: Any] = [
             "appToken": testAppToken,
@@ -39,7 +40,7 @@ class AdjustIntegrationTests {
         #expect(self.mockAdaptor.initConfig?.delegate != nil)
     }
 
-    @Test("create() should throw when appToken missing")
+    @Test("when create() is called with missing appToken, then it should throw an error")
     func testCreateMissingAppToken() {
         let config: [String: Any] = [:]
 
@@ -49,7 +50,7 @@ class AdjustIntegrationTests {
     }
 
     // MARK: - event mapping
-    @Test("track() should drop event when mapping missing")
+    @Test("when track() is called without event mapping, then it should drop event when mapping missing")
     func testTrackMissingMapping() throws {
         try integration.create(destinationConfig: [
             "appToken": testAppToken,
@@ -64,7 +65,7 @@ class AdjustIntegrationTests {
         #expect(mockAdaptor.trackCalled == false)
     }
 
-    @Test("track() should send event when mapping exists")
+    @Test("when track() is called with valid event mapping, then it should send event")
     func testTrackWithValidMapping() throws {
         try integration.create(destinationConfig: [
             "appToken": testAppToken,
@@ -83,7 +84,7 @@ class AdjustIntegrationTests {
     }
 
     // MARK: - partner params handling (identify)
-    @Test("identify() should call setPartnerParams")
+    @Test("when identify() is called, then it should call setPartnerParams")
     func testIdentifyCallsPartnerParams() throws {
         var identify = IdentifyEvent()
         identify.userId = "user-888"
@@ -97,7 +98,7 @@ class AdjustIntegrationTests {
     }
 
     // MARK: - partner params handling (track)
-    @Test("track() should call setPartnerParams before tracking")
+    @Test("when track() is called with valid event mapping, then it should call setPartnerParams before tracking")
     func testTrackCallsPartnerParams() throws {
         try integration.create(destinationConfig: [
             "appToken": testAppToken,
@@ -113,7 +114,7 @@ class AdjustIntegrationTests {
     }
 
     // MARK: - reset
-    @Test("reset() should remove global partner parameters")
+    @Test("when reset() is called, then it should remove global partner parameters")
     func testReset() {
         integration.reset()
 
@@ -121,7 +122,7 @@ class AdjustIntegrationTests {
     }
 
     // MARK: - callback params
-    @Test("track() should forward properties as callback params")
+    @Test("when track() is called with valid event mapping, then it should forward properties as callback params")
     func testTrackCallbackParams() throws {
         try integration.create(destinationConfig: [
             "appToken": testAppToken,
@@ -147,7 +148,7 @@ class AdjustIntegrationTests {
     }
 
     // MARK: - attribution callback
-    @Test("adjustAttributionChanged() should forward attribution changes")
+    @Test("when adjustAttributionChanged() is called, then it should forward attribution changes")
     func testAttributionChangedCallback() throws {
         let spy = AttributionCallbackSpy()
 

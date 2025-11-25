@@ -9,7 +9,9 @@ import Foundation
 import AdjustSdk
 import RudderStackAnalytics
 
-// Adapter protocol for Adjust SDK
+/**
+ Protocol to abstract Adjust SDK interactions for easier testing
+*/
 public protocol AdjustSDKAdapter {
     func initSDK(adjustConfig: ADJConfig?)
     func track(event: ADJEvent)
@@ -18,6 +20,9 @@ public protocol AdjustSDKAdapter {
     var onAttributionChanged: ((ADJAttribution) -> Void)? { get set }
 }
 
+/**
+ Default implementation of AdjustSDKAdapter using the actual Adjust SDK
+*/
 class DefaultAdjustSDKAdapter: AdjustSDKAdapter {
     var onAttributionChanged: ((ADJAttribution) -> Void)?
     

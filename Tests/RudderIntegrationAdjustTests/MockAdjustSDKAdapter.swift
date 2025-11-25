@@ -11,6 +11,9 @@ import RudderStackAnalytics
 @testable import RudderIntegrationAdjust
 
 // MARK: - Mock Adapter
+/**
+ Mock implementation of AdjustSDKAdapter for testing purposes
+*/
 final class MockAdjustSDKAdapter: AdjustSDKAdapter {
     var initCalled = false
     var initConfig: ADJConfig?
@@ -45,6 +48,9 @@ final class MockAdjustSDKAdapter: AdjustSDKAdapter {
 }
 
 // MARK: - Callback Spy (for attribution callback)
+/**
+ Spy class to capture attribution callback invocations for testing
+*/
 final class AttributionCallbackSpy {
     var invoked = false
     var received: ADJAttribution?

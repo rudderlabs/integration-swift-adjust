@@ -25,7 +25,6 @@ playground.xcworkspace
 # Dependency management files (not needed for libraries)
 Packages/
 Package.pins
-Package.resolved
 
 # Example app build artifacts
 Example/.build

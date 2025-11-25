@@ -76,8 +76,6 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
             }
         }
         
-        adjustConfig?.logLevel = .debug
-
         // Set delegate for install attribution tracking if enabled
         if enableInstallAttributionTracking {
             adjustConfig?.delegate = self
@@ -108,7 +106,7 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
 
         // Use stored eventMap
         guard let adjEventToken = eventMap[eventName], !adjEventToken.isEmpty else {
-            LoggerAnalytics.debug("AdjustIntegration: Dropping track event \(eventName), - no event token mapping found.")
+            LoggerAnalytics.debug("AdjustIntegration: Dropping track event \(eventName) - no event token mapping found.")
             return
         }
 
@@ -117,7 +115,7 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
 
         // Create Adjust event
         guard let event = ADJEvent(eventToken: adjEventToken) else {
-            LoggerAnalytics.error("AdjustIntegration: Failed to create ADJEvent for token, \(adjEventToken).")
+            LoggerAnalytics.error("AdjustIntegration: Failed to create ADJEvent for token \(adjEventToken).")
             return
         }
 
@@ -135,7 +133,7 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
 
         // Track event
         self.adjustSDKAdapter.track(event: event)
-        LoggerAnalytics.debug("AdjustIntegration: Tracked event \(eventName), with token \(adjEventToken).")
+        LoggerAnalytics.debug("AdjustIntegration: Tracked event \(eventName) with token \(adjEventToken).")
     }
     
     public func identify(payload: IdentifyEvent) {
@@ -166,7 +164,7 @@ extension AdjustIntegration {
             "campaign": campaign.isEmpty ? nil : campaign
         ].compactMapValues { $0 }
 
-        LoggerAnalytics.debug("Install Attributed event properties: \(properties)")
+        LoggerAnalytics.debug("Install Attributed event properties: \(properties).")
 
         self.analytics?.track(name: "Install Attributed", properties: properties)
 

@@ -13,6 +13,7 @@ import RudderStackAnalytics
  Protocol to abstract Adjust SDK interactions for easier testing
 */
 public protocol AdjustSDKAdapter {
+    var adjustInstance: Any? { get set }
     func initSDK(adjustConfig: ADJConfig?)
     func track(event: ADJEvent)
     func setPartnerParams(payload: Event)
@@ -24,17 +25,26 @@ public protocol AdjustSDKAdapter {
  Default implementation of AdjustSDKAdapter using the actual Adjust SDK
 */
 class DefaultAdjustSDKAdapter: AdjustSDKAdapter {
+    
+    var adjustInstance: Any?
+    
     var onAttributionChanged: ((ADJAttribution) -> Void)?
     
     func initSDK(adjustConfig: ADJConfig?) {
+        guard adjustInstance == nil else { return }
         Adjust.initSdk(adjustConfig)
+        
+        self.adjustInstance = Adjust.getInstance()
     }
     
     func track(event: ADJEvent) {
+        guard adjustInstance != nil else { return }
         Adjust.trackEvent(event)
     }
     
     func setPartnerParams(payload: Event) {
+        guard adjustInstance != nil else { return }
+        
         if let anonymousId = payload.anonymousId {
             Adjust.addGlobalPartnerParameter(anonymousId, forKey: "anonymousId")
         }
@@ -44,6 +54,7 @@ class DefaultAdjustSDKAdapter: AdjustSDKAdapter {
     }
     
     func removeGlobalPartnerParameters() {
+        guard adjustInstance != nil else { return }
         Adjust.removeGlobalPartnerParameters()
     }
 }

@@ -29,7 +29,7 @@ extension AnalyticsManager {
 // MARK: - Track
 extension AnalyticsManager {
     func trackEvent() {
-        let properties: [String: Any] = ["key1": "value1", "key2": 123, "key3": true, "key4": 4.56, "revenue": "4.99", "currency": "USD"]
+        let properties: [String: Any] = ["key1": "value1", "key2": 123, "key3": true, "key4": 4.56, "revenue": "4.99", "currency": "INR"]
         self.analytics?.track(name: "Track Event", properties: properties)
     }
 }

@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/rudderlabs/rudder-sdk-swift.git",
       "state" : {
-        "branch" : "feat/sdk-502-make-standard-integration-public",
-        "revision" : "30b33dc0ff62ae72f16ebf63ec7da98f5d993011"
+        "branch" : "develop",
+        "revision" : "c62675f96d214a28dc56174d60469b21925ace2c"
       }
     }
   ],

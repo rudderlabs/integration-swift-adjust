@@ -1,5 +1,5 @@
 {
-  "originHash" : "15ddaf0b8675f5778b8a06ae13bc2c6ede750c42275f5f71396937c2a8336817",
+  "originHash" : "a9071bf419da1172d8388c813464e1abb6590d8ad1f6b9e9519a8871539de2d0",
   "pins" : [
     {
       "identity" : "adjust_signature_sdk",
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/rudderlabs/rudder-sdk-swift.git",
       "state" : {
-        "branch" : "feat/sdk-502-make-standard-integration-public",
-        "revision" : "ac7e880e43308bb4c2d043de72ac52ba5ea3f064"
+        "branch" : "develop",
+        "revision" : "c62675f96d214a28dc56174d60469b21925ace2c"
       }
     }
   ],

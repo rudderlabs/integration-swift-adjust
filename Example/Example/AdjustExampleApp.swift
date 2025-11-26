@@ -26,13 +26,13 @@ struct AdjustExampleApp: App {
     func setupAnalytics() {
         LoggerAnalytics.logLevel = .verbose
         
-        // Configuration for RudderStack Analytics
-        let configuration = Configuration(writeKey: "", dataPlaneUrl: "")
+        // TODO: Replace the placeholder values below with your actual RudderStack write key and data plane URL.
+        let configuration = Configuration(writeKey: "<WriteKey>", dataPlaneUrl: "<DataPlaneUrl>")
         
         // Initialize Analytics
         let analytics = Analytics(configuration: configuration)
         
-        // Add Firebase Integration
+        // Add Adjust Integration
         let adjustIntegration = AdjustIntegration()
         analytics.add(plugin: adjustIntegration)
         

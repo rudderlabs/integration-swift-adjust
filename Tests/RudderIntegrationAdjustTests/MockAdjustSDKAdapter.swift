@@ -15,6 +15,8 @@ import RudderStackAnalytics
  Mock implementation of AdjustSDKAdapter for testing purposes
 */
 final class MockAdjustSDKAdapter: AdjustSDKAdapter {
+    var adjustInstance: Any?
+    
     var initCalled = false
     var initConfig: ADJConfig?
 

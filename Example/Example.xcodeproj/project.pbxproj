@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		531B7FEA2ECEE672000B1D6A /* rudder_swift_integrattion_template in Frameworks */ = {isa = PBXBuildFile; productRef = 531B7FE92ECEE672000B1D6A /* rudder_swift_integrattion_template */; };
-		531B7FF52ECF183B000B1D6A /* rudder_swift_integration_template in Frameworks */ = {isa = PBXBuildFile; productRef = 531B7FF42ECF183B000B1D6A /* rudder_swift_integration_template */; };
 		531B80272ED6DF0E000B1D6A /* RudderIntegrationAdjust in Frameworks */ = {isa = PBXBuildFile; productRef = 531B80262ED6DF0E000B1D6A /* RudderIntegrationAdjust */; };
 /* End PBXBuildFile section */
 
@@ -45,9 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				531B7FEA2ECEE672000B1D6A /* rudder_swift_integrattion_template in Frameworks */,
 				531B80272ED6DF0E000B1D6A /* RudderIntegrationAdjust in Frameworks */,
-				531B7FF52ECF183B000B1D6A /* rudder_swift_integration_template in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,8 +95,6 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				531B7FE92ECEE672000B1D6A /* rudder_swift_integrattion_template */,
-				531B7FF42ECF183B000B1D6A /* rudder_swift_integration_template */,
 				531B80262ED6DF0E000B1D6A /* RudderIntegrationAdjust */,
 			);
 			productName = Example;
@@ -535,14 +529,6 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		531B7FE92ECEE672000B1D6A /* rudder_swift_integrattion_template */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = rudder_swift_integrattion_template;
-		};
-		531B7FF42ECF183B000B1D6A /* rudder_swift_integration_template */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = rudder_swift_integration_template;
-		};
 		531B80262ED6DF0E000B1D6A /* RudderIntegrationAdjust */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RudderIntegrationAdjust;

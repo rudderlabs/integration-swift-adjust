@@ -1,0 +1,60 @@
+{
+  "originHash" : "a9071bf419da1172d8388c813464e1abb6590d8ad1f6b9e9519a8871539de2d0",
+  "pins" : [
+    {
+      "identity" : "adjust_signature_sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/adjust/adjust_signature_sdk.git",
+      "state" : {
+        "revision" : "b11c73304c2410bd410cc9369b812a83cc117002",
+        "version" : "3.61.0"
+      }
+    },
+    {
+      "identity" : "google-ads-on-device-conversion-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/googleads/google-ads-on-device-conversion-ios-sdk.git",
+      "state" : {
+        "revision" : "35b601a60fbbea2de3ea461f604deaaa4d8bbd0c",
+        "version" : "3.2.0"
+      }
+    },
+    {
+      "identity" : "googleutilities",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/GoogleUtilities.git",
+      "state" : {
+        "revision" : "60da361632d0de02786f709bdc0c4df340f7613e",
+        "version" : "8.1.0"
+      }
+    },
+    {
+      "identity" : "ios_sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/adjust/ios_sdk",
+      "state" : {
+        "revision" : "fbe95360df63c3c0f9a98c5f2efb39b46bd2f08d",
+        "version" : "5.4.6"
+      }
+    },
+    {
+      "identity" : "nanopb",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/firebase/nanopb.git",
+      "state" : {
+        "revision" : "b7e1104502eca3a213b46303391ca4d3bc8ddec1",
+        "version" : "2.30910.0"
+      }
+    },
+    {
+      "identity" : "rudder-sdk-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rudderlabs/rudder-sdk-swift.git",
+      "state" : {
+        "branch" : "develop",
+        "revision" : "c62675f96d214a28dc56174d60469b21925ace2c"
+      }
+    }
+  ],
+  "version" : 3
+}

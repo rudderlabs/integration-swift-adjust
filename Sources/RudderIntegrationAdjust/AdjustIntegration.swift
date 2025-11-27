@@ -41,7 +41,7 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
         // Extract appToken
         guard let appToken = destinationConfig["appToken"] as? String, !appToken.isEmpty else {
             LoggerAnalytics.error("AdjustIntegration: Missing or empty appToken in config.")
-            throw NSError(domain: "AdjustIntegration", code: 1, userInfo: [NSLocalizedDescriptionKey: "Missing appToken"])
+            throw AdjustIntegrationError.missingAppToken
         }
         
         // Extract customMappings and build eventMap
@@ -181,5 +181,17 @@ extension AdjustIntegration {
                 return (from, to)
             }
             .reduce(into: [:]) { $0[$1.0] = $1.1 }
+    }
+}
+
+// MARK: - AdjustIntegrationError
+enum AdjustIntegrationError: LocalizedError {
+    case missingAppToken
+
+    var errorDescription: String? {
+        switch self {
+        case .missingAppToken:
+            return "Missing appToken"
+        }
     }
 }

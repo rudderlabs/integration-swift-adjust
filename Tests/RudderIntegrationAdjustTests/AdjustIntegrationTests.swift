@@ -142,6 +142,15 @@ class AdjustIntegrationTests {
         #expect(tracked.revenue == 199.99)
         #expect(tracked.currency == "USD")
     }
+
+    // MARK: - getDestinationInstance()
+    @Test("when getDestinationInstance() is called, then it should return adapter's adjustInstance")
+    func testGetDestinationInstanceReturnsAdapterInstance() {
+        let dummyInstance = "DummyAdjustInstance"
+        mockAdaptor.adjustInstance = dummyInstance
+        let result = integration.getDestinationInstance()
+        #expect(result as? String == dummyInstance)
+    }
     
     // MARK: - attribution callback
     @Test("when adjustAttributionChanged() is called, then it should forward attribution changes")

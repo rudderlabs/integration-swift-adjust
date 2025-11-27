@@ -12,7 +12,7 @@ import RudderStackAnalytics
 /**
  Protocol to abstract Adjust SDK interactions for easier testing
 */
-public protocol AdjustSDKAdapter {
+protocol AdjustSDKAdapter {
     var adjustInstance: Any? { get set }
     func initSDK(adjustConfig: ADJConfig?)
     func track(event: ADJEvent)
@@ -38,12 +38,18 @@ class DefaultAdjustSDKAdapter: AdjustSDKAdapter {
     }
     
     func track(event: ADJEvent) {
-        guard adjustInstance != nil else { return }
+        guard adjustInstance != nil else {
+            LoggerAnalytics.error("DefaultAdjustSDKAdapter: Adjust SDK not initialized. Cannot track event.")
+            return
+        }
         Adjust.trackEvent(event)
     }
     
     func setPartnerParams(payload: Event) {
-        guard adjustInstance != nil else { return }
+        guard adjustInstance != nil else {
+            LoggerAnalytics.error("DefaultAdjustSDKAdapter: Adjust SDK not initialized. Cannot set partner parameters.")
+            return
+        }
         
         if let anonymousId = payload.anonymousId {
             Adjust.addGlobalPartnerParameter(anonymousId, forKey: "anonymousId")
@@ -54,7 +60,10 @@ class DefaultAdjustSDKAdapter: AdjustSDKAdapter {
     }
     
     func removeGlobalPartnerParameters() {
-        guard adjustInstance != nil else { return }
+        guard adjustInstance != nil else {
+            LoggerAnalytics.error("DefaultAdjustSDKAdapter: Adjust SDK not initialized. Cannot remove partner parameters.")
+            return
+        }
         Adjust.removeGlobalPartnerParameters()
     }
 }

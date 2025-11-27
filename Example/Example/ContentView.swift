@@ -22,6 +22,11 @@ struct ContentView: View {
                 }
                 .buttonStyle(PrimaryButtonStyle())
                 
+                Button("Reset") {
+                    AnalyticsManager.shared.reset()
+                }
+                .buttonStyle(PrimaryButtonStyle())
+                
                 Spacer()
             }
             .padding()

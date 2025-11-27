@@ -33,3 +33,10 @@ extension AnalyticsManager {
         self.analytics?.track(name: "Track Event", properties: properties)
     }
 }
+
+// MARK: - Reset
+extension AnalyticsManager {
+    func reset() {
+        self.analytics?.reset()
+    }
+}

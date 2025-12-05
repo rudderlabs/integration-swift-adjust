@@ -15,7 +15,7 @@ To contribute to this project, we need you to sign the [**Contributor License Ag
 
 ## How you can contribute to RudderStack
 
-If you come across any issues or bugs, or have any suggestions for improvement, you can navigate to the specific file in the [**repo**](https://github.com/rudderlabs/rudder-repo-template), make the change, and raise a PR.
+If you come across any issues or bugs, or have any suggestions for improvement, you can navigate to the specific file in the [**repo**](https://github.com/rudderlabs/integration-swift-adjust), make the change, and raise a PR.
 
 You can also contribute to any open-source RudderStack project. View our [**GitHub page**](https://github.com/rudderlabs) to see all the different projects.
 
@@ -32,5 +32,4 @@ For any questions, concerns, or queries, you can start by asking a question in o
 
 <!----variables---->
 
-[issue]: https://github.com/rudderlabs/rudder-server/issues/new
 [CLA]: https://rudderlabs.wufoo.com/forms/rudderlabs-contributor-license-agreement

@@ -29,10 +29,6 @@ Package.pins
 # Example app build artifacts
 Example/.build
 
-# Since this repository includes an example project, the following items were removed. Re-enable them if needed.
-# *.xcodeproj
-# *.xcworkspace
-
 # Xcode user-specific files
 xcuserdata/
 *.xcuserstate

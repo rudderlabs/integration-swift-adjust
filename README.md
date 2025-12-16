@@ -30,7 +30,7 @@ Add the Adjust integration to your Swift project using Swift Package Manager:
 
 1. In Xcode, go to `File > Add Package Dependencies`
 
-<img width="1920" height="1079" alt="add_package_dependency" src="https://github.com/user-attachments/assets/efd48eb4-68fe-453a-92e4-5d721af5d5a1" />
+<img width="960" height="540" alt="add_package_dependency" src="https://github.com/user-attachments/assets/efd48eb4-68fe-453a-92e4-5d721af5d5a1" />
 
 2. Enter the package repository URL: `https://github.com/rudderlabs/integration-swift-adjust` in the search bar
 3. Select the version you want to use

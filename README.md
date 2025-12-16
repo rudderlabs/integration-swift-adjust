@@ -29,10 +29,18 @@ The Adjust integration allows you to send your event data from RudderStack to Ad
 Add the Adjust integration to your Swift project using Swift Package Manager:
 
 1. In Xcode, go to `File > Add Package Dependencies`
+
+<img width="960" height="540" alt="add_package_dependency" src="https://github.com/user-attachments/assets/efd48eb4-68fe-453a-92e4-5d721af5d5a1" />
+
 2. Enter the package repository URL: `https://github.com/rudderlabs/integration-swift-adjust` in the search bar
 3. Select the version you want to use
+   
+   <img width="813" height="451" alt="select_package" src="https://github.com/user-attachments/assets/ec758a05-9df7-4077-811d-71a1ff3c6286" />
+
 4. Select the target to which you want to add the package
 5. Finally, click on **Add Package**
+
+   <img width="640" height="282" alt="select_target" src="https://github.com/user-attachments/assets/72d6b00d-4862-4948-987e-971adf16d0fa" />
 
 Alternatively, add it to your `Package.swift` file:
 

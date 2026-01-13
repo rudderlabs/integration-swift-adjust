@@ -22,6 +22,8 @@
 
 The Adjust integration allows you to send your event data from RudderStack to Adjust for mobile measurement and attribution.
 
+> This SDK fully supports both Swift and Objective-C and can be used seamlessly in either type of project.
+
 ## Installation
 
 ### Swift Package Manager

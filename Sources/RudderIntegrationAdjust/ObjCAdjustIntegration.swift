@@ -17,9 +17,9 @@ import RudderStackAnalytics
 
  ## Usage in Objective-C:
  ```objc
- RSSConfiguration *config = [[RSSConfiguration alloc] initWithWriteKey:@"<WriteKey>"
+ RSSConfigurationBuilder *builder = [[RSSConfigurationBuilder alloc] initWithWriteKey:@"<WriteKey>"
                                                           dataPlaneUrl:@"<DataPlaneUrl>"];
- RSSAnalytics *analytics = [[RSSAnalytics alloc] initWithConfiguration:config];
+ RSSAnalytics *analytics = [[RSSAnalytics alloc] initWithConfiguration:[builder build]];
 
  RSSAdjustIntegration *adjustIntegration = [[RSSAdjustIntegration alloc] init];
  [analytics addPlugin:adjustIntegration];

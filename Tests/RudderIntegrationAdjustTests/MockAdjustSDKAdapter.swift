@@ -57,3 +57,27 @@ final class AttributionCallbackSpy {
     var invoked = false
     var received: ADJAttribution?
 }
+
+// MARK: - Helper Functions
+/**
+ Creates an ADJAttribution instance with the specified test fields.
+ */
+func createTestAttribution(
+    trackerName: String? = nil,
+    trackerToken: String? = nil,
+    network: String? = nil,
+    campaign: String? = nil,
+    adgroup: String? = nil,
+    creative: String? = nil,
+    clickLabel: String? = nil
+) -> ADJAttribution {
+    let attribution = ADJAttribution()
+    attribution.trackerName = trackerName
+    attribution.trackerToken = trackerToken
+    attribution.network = network
+    attribution.campaign = campaign
+    attribution.adgroup = adgroup
+    attribution.creative = creative
+    attribution.clickLabel = clickLabel
+    return attribution
+}

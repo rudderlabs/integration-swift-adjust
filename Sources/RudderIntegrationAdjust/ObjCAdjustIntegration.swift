@@ -108,6 +108,16 @@ public class ObjCAdjustIntegration: NSObject, ObjCIntegrationPlugin, ObjCStandar
     }
 
     /**
+     Updates the integration configuration with new destination settings.
+
+     - Parameter destinationConfig: Updated configuration dictionary from RudderStack dashboard.
+     */
+    @objc
+    public func updateWithDestinationConfig(_ destinationConfig: [String: Any]) {
+        adjustIntegration.update(destinationConfig: destinationConfig)
+    }
+
+    /**
      Resets the integration state.
 
      This removes all global partner parameters from the Adjust SDK.

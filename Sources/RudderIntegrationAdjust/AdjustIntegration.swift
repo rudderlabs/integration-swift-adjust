@@ -144,30 +144,33 @@ extension AdjustIntegration {
     public func adjustAttributionChanged(_ attribution: ADJAttribution?) {
         guard let attribution else { return }
         
-        if enableInstallAttributionTracking {
-            let campaign: [String: Any] = [
-                "source": attribution.network,
-                "name": attribution.campaign,
-                "content": attribution.clickLabel,
-                "adCreative": attribution.creative,
-                "adGroup": attribution.adgroup
-            ].compactMapValues { $0 }
-            
-            let properties: [String: Any] = [
-                "provider": "Adjust",
-                "trackerToken": attribution.trackerToken,
-                "trackerName": attribution.trackerName,
-                "campaign": campaign.isEmpty ? nil : campaign
-            ].compactMapValues { $0 }
-            
-            LoggerAnalytics.debug("Install Attributed event properties: \(properties).")
-            
-            self.analytics?.track(name: "Install Attributed", properties: properties)
-        } else {
-            LoggerAnalytics.debug("AdjustIntegration: Install attribution tracking is disabled.")
+        defer {
+            self.adjustSDKAdapter.onAttributionChanged?(attribution)
         }
         
-        self.adjustSDKAdapter.onAttributionChanged?(attribution)
+        guard enableInstallAttributionTracking else {
+            LoggerAnalytics.debug("AdjustIntegration: Install attribution tracking is disabled.")
+            return
+        }
+        
+        let campaign: [String: Any] = [
+            "source": attribution.network,
+            "name": attribution.campaign,
+            "content": attribution.clickLabel,
+            "adCreative": attribution.creative,
+            "adGroup": attribution.adgroup
+        ].compactMapValues { $0 }
+        
+        let properties: [String: Any] = [
+            "provider": "Adjust",
+            "trackerToken": attribution.trackerToken,
+            "trackerName": attribution.trackerName,
+            "campaign": campaign.isEmpty ? nil : campaign
+        ].compactMapValues { $0 }
+        
+        LoggerAnalytics.debug("Install Attributed event properties: \(properties).")
+        
+        self.analytics?.track(name: "Install Attributed", properties: properties)
     }
 }
 

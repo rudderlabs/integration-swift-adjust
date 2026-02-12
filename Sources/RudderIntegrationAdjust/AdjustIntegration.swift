@@ -18,6 +18,7 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
     public var analytics: Analytics?
     public var key: String = "Adjust"
     private var eventMap = [String: String]()
+    private var enableInstallAttributionTracking = false
     
     let adjustSDKAdapter: AdjustSDKAdapter
     
@@ -48,7 +49,7 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
         self.eventMap = buildEventMap(from: destinationConfig)
         
         // Extract enableInstallAttributionTracking
-        let enableInstallAttributionTracking = (destinationConfig["enableInstallAttributionTracking"] as? Bool) ?? false
+        self.enableInstallAttributionTracking = (destinationConfig["enableInstallAttributionTracking"] as? Bool) ?? false
         
         // Determine environment (sandbox/production)
         let isProductionEnvironment = LoggerAnalytics.logLevel == .none
@@ -61,13 +62,23 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
         adjustConfig?.logLevel = mappedAdjustLogLevel
         
         // Set delegate for install attribution tracking if enabled
-        if enableInstallAttributionTracking {
+        if self.enableInstallAttributionTracking {
             adjustConfig?.delegate = self
         }
         
         // Initialize Adjust SDK
         self.adjustSDKAdapter.initSDK(adjustConfig: adjustConfig)
         LoggerAnalytics.debug("AdjustIntegration: Initialized Adjust SDK with appToken: \(appToken)")
+    }
+    
+    public func update(destinationConfig: [String: Any]) {
+        // Update event mappings
+        self.eventMap = buildEventMap(from: destinationConfig)
+        
+        // Update install attribution tracking flag
+        self.enableInstallAttributionTracking = (destinationConfig["enableInstallAttributionTracking"] as? Bool) ?? false
+        
+        LoggerAnalytics.debug("AdjustIntegration: Updated configuration - enableInstallAttributionTracking: \(self.enableInstallAttributionTracking)")
     }
     
     // MARK: - Optional Methods (implement only if needed)
@@ -133,6 +144,13 @@ extension AdjustIntegration {
     public func adjustAttributionChanged(_ attribution: ADJAttribution?) {
         guard let attribution else { return }
         
+        self.adjustSDKAdapter.onAttributionChanged?(attribution)
+        
+        guard enableInstallAttributionTracking else {
+            LoggerAnalytics.debug("AdjustIntegration: Install attribution tracking is disabled.")
+            return
+        }
+        
         let campaign: [String: Any] = [
             "source": attribution.network,
             "name": attribution.campaign,
@@ -151,8 +169,6 @@ extension AdjustIntegration {
         LoggerAnalytics.debug("Install Attributed event properties: \(properties).")
         
         self.analytics?.track(name: "Install Attributed", properties: properties)
-        
-        self.adjustSDKAdapter.onAttributionChanged?(attribution)
     }
 }
 

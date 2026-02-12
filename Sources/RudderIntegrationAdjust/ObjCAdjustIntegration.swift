@@ -58,6 +58,16 @@ public class ObjCAdjustIntegration: NSObject, ObjCIntegrationPlugin, ObjCStandar
         self.adjustIntegration = AdjustIntegration()
         super.init()
     }
+    
+    /**
+     Sets up the integration with the provided analytics instance.
+     
+     - Parameter analytics: The ObjC analytics instance to associate with this integration.
+     */
+    @objc
+    public func setup(_ analytics: ObjCAnalytics) {
+        adjustIntegration.analytics = analytics.analytics
+    }
 
     // MARK: - ObjCIntegrationPlugin Methods
 

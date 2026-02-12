@@ -144,9 +144,7 @@ extension AdjustIntegration {
     public func adjustAttributionChanged(_ attribution: ADJAttribution?) {
         guard let attribution else { return }
         
-        defer {
-            self.adjustSDKAdapter.onAttributionChanged?(attribution)
-        }
+        self.adjustSDKAdapter.onAttributionChanged?(attribution)
         
         guard enableInstallAttributionTracking else {
             LoggerAnalytics.debug("AdjustIntegration: Install attribution tracking is disabled.")

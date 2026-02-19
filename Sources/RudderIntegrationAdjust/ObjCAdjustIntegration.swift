@@ -58,6 +58,16 @@ public class ObjCAdjustIntegration: NSObject, ObjCIntegrationPlugin, ObjCStandar
         self.adjustIntegration = AdjustIntegration()
         super.init()
     }
+    
+    /**
+     Sets up the integration with the provided analytics instance.
+     
+     - Parameter analytics: The ObjC analytics instance to associate with this integration.
+     */
+    @objc
+    public func setup(_ analytics: ObjCAnalytics) {
+        adjustIntegration.analytics = analytics.analytics
+    }
 
     // MARK: - ObjCIntegrationPlugin Methods
 
@@ -105,6 +115,16 @@ public class ObjCAdjustIntegration: NSObject, ObjCIntegrationPlugin, ObjCStandar
     @objc
     public func flush() {
         adjustIntegration.flush()
+    }
+
+    /**
+     Updates the integration configuration with new destination settings.
+
+     - Parameter destinationConfig: Updated configuration dictionary from RudderStack dashboard.
+     */
+    @objc
+    public func updateWithDestinationConfig(_ destinationConfig: [String: Any]) {
+        adjustIntegration.update(destinationConfig: destinationConfig)
     }
 
     /**

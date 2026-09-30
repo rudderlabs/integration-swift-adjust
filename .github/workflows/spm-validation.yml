@@ -1,0 +1,27 @@
+name: SPM Validation
+on:
+  pull_request:
+    branches: ['main', 'master', 'develop']
+    types: ['opened', 'reopened', 'synchronize']
+
+permissions:
+  contents: read
+
+jobs:
+  spm-manifest:
+    name: Validate SPM manifest
+    runs-on: macos-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout source branch
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+
+      - name: Select latest Xcode
+        run: sudo xcode-select -s "$(ls -d /Applications/Xcode_*.app | sort -V | tail -1)"
+
+      - name: Validate SPM manifest
+        run: swift package dump-package > /dev/null

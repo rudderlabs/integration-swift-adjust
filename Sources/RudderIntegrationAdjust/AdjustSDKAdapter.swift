@@ -29,7 +29,11 @@ class DefaultAdjustSDKAdapter: AdjustSDKAdapter {
     var adjustInstance: Any?
     
     var onAttributionChanged: ((ADJAttribution) -> Void)?
-    
+
+    init(adjustInstance: Adjust? = nil) {
+        self.adjustInstance = adjustInstance
+    }
+
     func initSDK(adjustConfig: ADJConfig?) {
         guard adjustInstance == nil else { return }
         Adjust.initSdk(adjustConfig)

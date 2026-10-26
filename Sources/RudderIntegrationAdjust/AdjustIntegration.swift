@@ -32,6 +32,18 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
     public convenience override init() {
         self.init(adjustSDKAdapter: DefaultAdjustSDKAdapter())
     }
+
+    /**
+     Creates the integration in lite mode, with the Adjust instance that the app has already initialised.
+
+     The integration does not initialise Adjust or set the attribution delegate. It sends no "Install Attributed"
+     event, whatever the dashboard setting. The dashboard settings still need valid values.
+
+     - Parameter adjust: The Adjust instance that the app initialised, from `Adjust.getInstance()`.
+     */
+    public convenience init(adjust: Adjust) {
+        self.init(adjustSDKAdapter: DefaultAdjustSDKAdapter(adjustInstance: adjust))
+    }
     
     // MARK: - Required Methods
     public func getDestinationInstance() -> Any? {
@@ -50,7 +62,13 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
         
         // Extract enableInstallAttributionTracking
         self.enableInstallAttributionTracking = (destinationConfig["enableInstallAttributionTracking"] as? Bool) ?? false
-        
+
+        // In lite mode, the app passed an Adjust instance that it initialised with its own config.
+        guard self.adjustSDKAdapter.adjustInstance == nil else {
+            LoggerAnalytics.debug("AdjustIntegration: Adjust SDK is already initialized.")
+            return
+        }
+
         // Determine environment (sandbox/production)
         let isProductionEnvironment = LoggerAnalytics.logLevel == .none
         let environment: String = isProductionEnvironment ? ADJEnvironmentProduction : ADJEnvironmentSandbox

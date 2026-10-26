@@ -1,5 +1,5 @@
 {
-  "originHash" : "bb754c6c4804456a336105204f4c011dee7d8ad17d67ab842ade744d38a62b7c",
+  "originHash" : "cc643492327b1c4179b15104b37b32b82c88723113957f1a8b686d9c382bcbfe",
   "pins" : [
     {
       "identity" : "adjust_signature_sdk",
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/rudderlabs/rudder-sdk-swift.git",
       "state" : {
-        "revision" : "01fea0d07e79336d3a02acfb0eefa22a7e194497",
-        "version" : "1.0.0"
+        "revision" : "090d735c8f930f817d534480ce2689f0b6a83c45",
+        "version" : "2.0.0"
       }
     }
   ],

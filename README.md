@@ -118,6 +118,32 @@ Replace:
 - `<WRITE_KEY>`: Your project's write key from the RudderStack dashboard
 - `<DATA_PLANE_URL>`: The URL of your RudderStack data plane
 
+## Lite mode
+
+In lite mode, your app initialises Adjust and passes the instance to the integration. The integration then only maps
+events to Adjust event tokens and sends them.
+
+1. Initialise Adjust with your own `ADJConfig`: app token, environment, delegate, and the other settings.
+2. Pass the Adjust instance to the integration:
+
+```swift
+if let adjust = Adjust.getInstance() {
+    analytics.add(plugin: AdjustIntegration(adjust: adjust))
+}
+```
+
+In Objective-C, use `[[RSSAdjustIntegration alloc] initWithAdjust:[Adjust getInstance]]`.
+
+In lite mode, the integration:
+
+- Does not initialise Adjust or set the Adjust delegate.
+- Sends no "Install Attributed" event. If you need it, send it with your own `track` call from your attribution
+  delegate. The dashboard setting `enableInstallAttributionTracking` has no effect.
+- Uses the event-to-token mapping from the dashboard, and adds the `anonymousId` and `userId` partner parameters, as
+  in the standard mode. `reset` removes all global partner parameters, also the ones that your app added.
+- Waits for the source config before it sends events. The dashboard settings still need valid values, but lite mode
+  does not use the app token.
+
 ---
 
 ## Contact us

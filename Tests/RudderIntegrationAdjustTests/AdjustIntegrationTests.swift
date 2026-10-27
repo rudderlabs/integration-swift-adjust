@@ -151,7 +151,63 @@ class AdjustIntegrationTests {
         let result = integration.getDestinationInstance()
         #expect(result as? String == dummyInstance)
     }
-    
+
+    // MARK: - lite mode
+    @Test("given the app's Adjust instance, when create() runs twice, then Adjust is not initialised and the events reach the adapter")
+    func testLiteModeCreateSkipsInitialization() throws {
+        let appInstance = NSObject()
+        mockAdaptor.adjustInstance = appInstance
+        let config: [String: Any] = [
+            "appToken": testAppToken,
+            "enableInstallAttributionTracking": true,
+            "customMappings": [["from": "Purchase", "to": "EVT123"]]
+        ]
+
+        try integration.create(destinationConfig: config)
+        try integration.create(destinationConfig: config)
+        integration.track(payload: TrackEvent(event: "Purchase"))
+        integration.identify(payload: IdentifyEvent())
+        integration.reset()
+
+        #expect(mockAdaptor.initCalled == false)
+        #expect(mockAdaptor.initConfig == nil)
+        #expect(integration.getDestinationInstance() as? NSObject === appInstance)
+        #expect(mockAdaptor.trackedEvent?.eventToken == "EVT123")
+        #expect(mockAdaptor.setPartnerParamsCalled == true)
+        #expect(mockAdaptor.removeGlobalPartnerParametersCalled == true)
+    }
+
+    @Test("given the app's Adjust instance, when create() gets a config without appToken, then it throws")
+    func testLiteModeCreateMissingAppToken() {
+        mockAdaptor.adjustInstance = NSObject()
+
+        #expect(throws: AdjustIntegrationError.missingAppToken) {
+            try integration.create(destinationConfig: [:])
+        }
+    }
+
+    @Test("given standard mode, when create() runs again after Adjust is initialised, then Adjust is not initialised again")
+    func testStandardModeSecondCreateSkipsInitialization() throws {
+        let config: [String: Any] = ["appToken": testAppToken]
+        try integration.create(destinationConfig: config)
+        #expect(mockAdaptor.initCalled == true)
+
+        mockAdaptor.initCalled = false
+        mockAdaptor.adjustInstance = NSObject()
+        try integration.create(destinationConfig: config)
+
+        #expect(mockAdaptor.initCalled == false)
+    }
+
+    @Test("when the lite initialisers get the Adjust instance, then getDestinationInstance() returns it")
+    func testLiteInitializersReturnTheAppInstance() throws {
+        let adjust = try #require(Adjust.getInstance())
+
+        #expect(AdjustIntegration(adjust: adjust).getDestinationInstance() as? Adjust === adjust)
+        #expect(ObjCAdjustIntegration(adjust: adjust).getDestinationInstance() as? Adjust === adjust)
+        #expect(AdjustIntegration().getDestinationInstance() == nil)
+    }
+
     // MARK: - attribution callback
     @Test("when adjustAttributionChanged() is called, then it should forward attribution changes")
     func testAttributionChangedCallback() throws {

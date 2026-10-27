@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AdjustSdk
 import RudderStackAnalytics
 
 // MARK: - ObjCAdjustIntegration
@@ -58,7 +59,18 @@ public class ObjCAdjustIntegration: NSObject, ObjCIntegrationPlugin, ObjCStandar
         self.adjustIntegration = AdjustIntegration()
         super.init()
     }
-    
+
+    /**
+     Initializes a new Adjust integration instance in lite mode.
+
+     - Parameter adjust: The Adjust instance that the app initialised, from `[Adjust getInstance]`.
+     */
+    @objc
+    public init(adjust: Adjust) {
+        self.adjustIntegration = AdjustIntegration(adjust: adjust)
+        super.init()
+    }
+
     /**
      Sets up the integration with the provided analytics instance.
      

@@ -75,10 +75,10 @@ let package = Package(
 
 ## Supported Native Adjust SDK Version
 
-This integration supports Adjust iOS SDK version:
+This integration supports Adjust iOS SDK versions in the range:
 
-```
-5.4.6+
+```text
+[5.4.6, 6.0.0)
 ```
 
 ### Platform Support

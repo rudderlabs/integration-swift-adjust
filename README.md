@@ -118,15 +118,26 @@ Replace:
 - `<WRITE_KEY>`: Your project's write key from the RudderStack dashboard
 - `<DATA_PLANE_URL>`: The URL of your RudderStack data plane
 
-## Lite mode
+## Use your own Adjust instance
 
-In lite mode, your app initialises Adjust and passes the instance to the integration. The integration then only maps
-events to Adjust event tokens and sends them.
+In the default setup, the integration initializes Adjust from the destination configuration. Instead, your app can
+initialize Adjust and pass that instance to the integration. The integration then only maps events to Adjust event
+tokens and sends them. This needs integration version 2.0.0 or higher.
 
-1. Initialise Adjust with your own `ADJConfig`: app token, environment, delegate, and the other settings.
-2. Pass the Adjust instance to the integration:
+1. Add the Adjust iOS SDK to your app target. Use the package `https://github.com/adjust/ios_sdk`, the product
+   `AdjustSdk`, and a version in the range `[5.4.6, 6.0.0)`.
+2. Initialize Adjust with your own `ADJConfig`, for example, the app token, the environment, and your delegate.
+3. Pass the Adjust instance to the integration:
 
 ```swift
+import AdjustSdk
+import RudderStackAnalytics
+import RudderIntegrationAdjust
+
+let adjustConfig = ADJConfig(appToken: "<ADJUST_APP_TOKEN>", environment: ADJEnvironmentProduction)
+adjustConfig?.delegate = self
+Adjust.initSdk(adjustConfig)
+
 if let adjust = Adjust.getInstance() {
     analytics.add(plugin: AdjustIntegration(adjust: adjust))
 }
@@ -134,15 +145,18 @@ if let adjust = Adjust.getInstance() {
 
 In Objective-C, use `[[RSSAdjustIntegration alloc] initWithAdjust:[Adjust getInstance]]`.
 
-In lite mode, the integration:
+With your own instance, the integration:
 
-- Does not initialise Adjust or set the Adjust delegate.
-- Sends no "Install Attributed" event. If you need it, send it with your own `track` call from your attribution
-  delegate. The dashboard setting `enableInstallAttributionTracking` has no effect.
-- Uses the event-to-token mapping from the dashboard, and adds the `anonymousId` and `userId` partner parameters, as
-  in the standard mode. `reset` removes all global partner parameters, also the ones that your app added.
-- Waits for the source config before it sends events. The dashboard settings still need valid values, but lite mode
-  does not use the app token.
+- Doesn't initialize Adjust, set its log level, or set the Adjust delegate.
+- Doesn't send the "Install Attributed" event, even when the destination configuration turns it on. To send it, call
+  `track` from your own attribution delegate.
+- Still maps events with the event-to-token mapping in the destination configuration, and adds the `anonymousId` and
+  `userId` partner parameters.
+- Waits for the source configuration before it sends events.
+
+The **App Token** connection setting still needs a value. The integration doesn't use it.
+
+In both setups, `reset` removes all Adjust global partner parameters, also the ones that your app added.
 
 ---
 

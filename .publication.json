@@ -1,0 +1,93 @@
+{
+  "copiedFiles": [
+    {
+      "output": "Sources/RudderIntegrationAdjust/AdjustIntegration.swift",
+      "source": "Integrations/Adjust/Sources/RudderIntegrationAdjust/AdjustIntegration.swift",
+      "transform": "copy"
+    },
+    {
+      "output": "Sources/RudderIntegrationAdjust/AdjustSDKAdapter.swift",
+      "source": "Integrations/Adjust/Sources/RudderIntegrationAdjust/AdjustSDKAdapter.swift",
+      "transform": "copy"
+    },
+    {
+      "output": "Sources/RudderIntegrationAdjust/ObjCAdjustIntegration.swift",
+      "source": "Integrations/Adjust/Sources/RudderIntegrationAdjust/ObjCAdjustIntegration.swift",
+      "transform": "copy"
+    },
+    {
+      "output": "Sources/RudderIntegrationAdjust/Version.swift",
+      "source": "Integrations/Adjust/Sources/RudderIntegrationAdjust/Version.swift",
+      "transform": "copy"
+    },
+    {
+      "output": "CHANGELOG.md",
+      "source": "Integrations/Adjust/CHANGELOG.md",
+      "transform": "copy"
+    },
+    {
+      "output": "LICENSE",
+      "source": "LICENSE",
+      "transform": "copy"
+    },
+    {
+      "output": "README.md",
+      "source": "Integrations/Adjust/README.md",
+      "transform": "generated"
+    },
+    {
+      "output": ".github/CODEOWNERS",
+      "source": null,
+      "transform": "generated"
+    },
+    {
+      "output": ".gitignore",
+      "source": null,
+      "transform": "generated"
+    },
+    {
+      "output": "CONTRIBUTING.md",
+      "source": null,
+      "transform": "generated"
+    },
+    {
+      "output": "Package.swift",
+      "source": null,
+      "transform": "generated"
+    },
+    {
+      "output": "VERSION",
+      "source": null,
+      "transform": "generated"
+    }
+  ],
+  "fileHashes": {
+    ".github/CODEOWNERS": "b6186d483919a45be6dd29537a58adc1a5a34338ab74fcf6e9985506c18eb025",
+    ".gitignore": "6c3f21e0d020c2a3887f176d7d69e0e6456e31888e053bf9dd5d1c5c78972aeb",
+    "CHANGELOG.md": "6c18d1668ff7b9e6e113ea059582cf6b1f1f9fd72cdb9bbb9a9eb40d9c3d0864",
+    "CONTRIBUTING.md": "819402d87c324e700d2067b7441bd47a30f4bede30d397841ea271f5bc5ade15",
+    "LICENSE": "130c075edb106634e90df2eb62cba8f7a3cb2c0e8ccec39cb168fc649684205d",
+    "Package.swift": "c54b7d806c0f17bf36418aa6648c0574ad0a4f4acf8ce7f2a2b9eff4d1c5d054",
+    "README.md": "364320cefdf5136bede4e5019a37a6690b4e0005a51679a7ca32663ef8db2ab6",
+    "Sources/RudderIntegrationAdjust/AdjustIntegration.swift": "30a4ade1f3a60a53bdf36327c7c4274ffa1b68b7556bbe62434252e2f660bb23",
+    "Sources/RudderIntegrationAdjust/AdjustSDKAdapter.swift": "d1078d8a47cc1c419656b9870bf05c8c4cf5cb123074bcb8bf9d4c5f05583cd0",
+    "Sources/RudderIntegrationAdjust/ObjCAdjustIntegration.swift": "d48155baef3d8e4fad8177fd66dc180644c188ae3dfc31cb85fd8cccb97b5d21",
+    "Sources/RudderIntegrationAdjust/Version.swift": "86801f8a447e15b9b6d140a3805d66e8be1ffdbbc5ebc08d3872b1a809a25a3d",
+    "VERSION": "c28fcca53637bc88e124af1725df13cb98c69dedefd62fb3cdbe1cdb6b760624"
+  },
+  "package": "adjust",
+  "policies": {
+    "RudderStackAnalytics": {
+      "mode": "external",
+      "package": "swift-sdk"
+    }
+  },
+  "schemaVersion": 1,
+  "sourceCommit": "f9c96d6bf573ec85b5ba2bc490c73e2bd51c0148",
+  "sourceRepository": "rudderlabs/rudder-monorepo-swift",
+  "targetClosure": [
+    "RudderStackAnalytics",
+    "RudderIntegrationAdjust"
+  ],
+  "version": "2.0.0"
+}

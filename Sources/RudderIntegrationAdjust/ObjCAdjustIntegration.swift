@@ -61,9 +61,10 @@ public class ObjCAdjustIntegration: NSObject, ObjCIntegrationPlugin, ObjCStandar
     }
 
     /**
-     Initializes a new Adjust integration instance in lite mode.
+     Initializes a new Adjust integration instance with your own Adjust instance, which the app has already
+     initialized.
 
-     - Parameter adjust: The Adjust instance that the app initialised, from `[Adjust getInstance]`.
+     - Parameter adjust: The Adjust instance that the app initialized, from `[Adjust getInstance]`.
      */
     @objc
     public init(adjust: Adjust) {

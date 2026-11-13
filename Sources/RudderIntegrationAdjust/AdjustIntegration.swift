@@ -79,10 +79,8 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
         // Set log level if provided
         adjustConfig?.logLevel = mappedAdjustLogLevel
         
-        // Set delegate for install attribution tracking if enabled
-        if self.enableInstallAttributionTracking {
-            adjustConfig?.delegate = self
-        }
+        // Set even when tracking is off: a later update can turn it on, and the callback checks the flag.
+        adjustConfig?.delegate = self
         
         // Initialize Adjust SDK
         self.adjustSDKAdapter.initSDK(adjustConfig: adjustConfig)

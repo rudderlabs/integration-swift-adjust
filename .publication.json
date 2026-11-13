@@ -64,16 +64,16 @@
   "fileHashes": {
     ".github/CODEOWNERS": "b6186d483919a45be6dd29537a58adc1a5a34338ab74fcf6e9985506c18eb025",
     ".gitignore": "6c3f21e0d020c2a3887f176d7d69e0e6456e31888e053bf9dd5d1c5c78972aeb",
-    "CHANGELOG.md": "592276a3ae2de066c461f0e9d04ae474e95f66ffbec759ce779353dcbfb1fe63",
+    "CHANGELOG.md": "6c49a70cbb0a952739a7f38d0db897274e93cfa59df335f0d822f71b72bf9faf",
     "CONTRIBUTING.md": "819402d87c324e700d2067b7441bd47a30f4bede30d397841ea271f5bc5ade15",
     "LICENSE": "130c075edb106634e90df2eb62cba8f7a3cb2c0e8ccec39cb168fc649684205d",
     "Package.swift": "c54b7d806c0f17bf36418aa6648c0574ad0a4f4acf8ce7f2a2b9eff4d1c5d054",
     "README.md": "364320cefdf5136bede4e5019a37a6690b4e0005a51679a7ca32663ef8db2ab6",
-    "Sources/RudderIntegrationAdjust/AdjustIntegration.swift": "80edec7d3189c34ff1381552b31cff3331f2e36958408c3032762d75f2642223",
+    "Sources/RudderIntegrationAdjust/AdjustIntegration.swift": "f5f747bbf20626ed4d1c8a27919999443f1232131f90de26c74b918b18251ee1",
     "Sources/RudderIntegrationAdjust/AdjustSDKAdapter.swift": "d1078d8a47cc1c419656b9870bf05c8c4cf5cb123074bcb8bf9d4c5f05583cd0",
     "Sources/RudderIntegrationAdjust/ObjCAdjustIntegration.swift": "78eac5a40a4ff89dd5c4b2716022c9288dea811587c13ff5a8cfdedce6afee76",
-    "Sources/RudderIntegrationAdjust/Version.swift": "0fd0802bbb626db0ac54c94ae1ce20a697d7ebe0fb647a2d49f9f113467c15c5",
-    "VERSION": "fe840f52fb5578d3f77eb497115eb02c6036601c3a53e60df7995c7276baa77a"
+    "Sources/RudderIntegrationAdjust/Version.swift": "d05212e1915c301304c5204b42c4161f216eaf29162cae402884d913f51057a1",
+    "VERSION": "b4b16faea52dc04ccfe32f7b342094855923ebf599a3cac1940470a2d6d7c261"
   },
   "package": "adjust",
   "policies": {
@@ -83,11 +83,11 @@
     }
   },
   "schemaVersion": 1,
-  "sourceCommit": "f4ba2964b23ebe32445606ffcbbf777344979fd5",
+  "sourceCommit": "db66c49c8f0cb90464c46b1ee3d8132ee125aaf8",
   "sourceRepository": "rudderlabs/rudder-monorepo-swift",
   "targetClosure": [
     "RudderStackAnalytics",
     "RudderIntegrationAdjust"
   ],
-  "version": "2.0.1"
+  "version": "2.0.2"
 }

@@ -12,7 +12,8 @@ import RudderStackAnalytics
 /**
  Protocol to abstract Adjust SDK interactions for easier testing
 */
-protocol AdjustSDKAdapter {
+protocol AdjustSDKAdapter: AnyObject {
+    var logger: Logger? { get set }
     var adjustInstance: Any? { get set }
     func initSDK(adjustConfig: ADJConfig?)
     func track(event: ADJEvent)
@@ -27,6 +28,8 @@ protocol AdjustSDKAdapter {
 class DefaultAdjustSDKAdapter: AdjustSDKAdapter {
     
     var adjustInstance: Any?
+
+    var logger: Logger?
     
     var onAttributionChanged: ((ADJAttribution) -> Void)?
 
@@ -43,7 +46,7 @@ class DefaultAdjustSDKAdapter: AdjustSDKAdapter {
     
     func track(event: ADJEvent) {
         guard adjustInstance != nil else {
-            LoggerAnalytics.error("DefaultAdjustSDKAdapter: Adjust SDK not initialized. Cannot track event.")
+            logger?.error(log: "DefaultAdjustSDKAdapter: Adjust SDK not initialized. Cannot track event.", error: nil)
             return
         }
         Adjust.trackEvent(event)
@@ -51,7 +54,7 @@ class DefaultAdjustSDKAdapter: AdjustSDKAdapter {
     
     func setPartnerParams(payload: Event) {
         guard adjustInstance != nil else {
-            LoggerAnalytics.error("DefaultAdjustSDKAdapter: Adjust SDK not initialized. Cannot set partner parameters.")
+            logger?.error(log: "DefaultAdjustSDKAdapter: Adjust SDK not initialized. Cannot set partner parameters.", error: nil)
             return
         }
         
@@ -65,7 +68,7 @@ class DefaultAdjustSDKAdapter: AdjustSDKAdapter {
     
     func removeGlobalPartnerParameters() {
         guard adjustInstance != nil else {
-            LoggerAnalytics.error("DefaultAdjustSDKAdapter: Adjust SDK not initialized. Cannot remove partner parameters.")
+            logger?.error(log: "DefaultAdjustSDKAdapter: Adjust SDK not initialized. Cannot remove partner parameters.", error: nil)
             return
         }
         Adjust.removeGlobalPartnerParameters()

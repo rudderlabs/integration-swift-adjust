@@ -51,9 +51,10 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
     }
     
     public func create(destinationConfig: [String: Any]) throws {
+        adjustSDKAdapter.logger = logger
         // Extract appToken
         guard let appToken = destinationConfig["appToken"] as? String, !appToken.isEmpty else {
-            LoggerAnalytics.error("AdjustIntegration: Missing or empty appToken in config.")
+            logger.error(log: "AdjustIntegration: Missing or empty appToken in config.", error: nil)
             throw AdjustIntegrationError.missingAppToken
         }
         
@@ -65,12 +66,12 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
 
         // With its own instance, the app passed an Adjust instance that it initialized with its own config.
         guard self.adjustSDKAdapter.adjustInstance == nil else {
-            LoggerAnalytics.debug("AdjustIntegration: Adjust SDK is already initialized.")
+            logger.debug(log: "AdjustIntegration: Adjust SDK is already initialized.")
             return
         }
 
         // Determine environment (sandbox/production)
-        let isProductionEnvironment = LoggerAnalytics.logLevel == .none
+        let isProductionEnvironment = (analytics?.configuration.logLevel ?? LogLevel.none) == .none
         let environment: String = isProductionEnvironment ? ADJEnvironmentProduction : ADJEnvironmentSandbox
         
         // Create Adjust config
@@ -84,7 +85,7 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
         
         // Initialize Adjust SDK
         self.adjustSDKAdapter.initSDK(adjustConfig: adjustConfig)
-        LoggerAnalytics.debug("AdjustIntegration: Initialized Adjust SDK with appToken: \(appToken)")
+        logger.debug(log: "AdjustIntegration: Initialized Adjust SDK with appToken: \(appToken)")
     }
     
     public func update(destinationConfig: [String: Any]) {
@@ -94,7 +95,7 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
         // Update install attribution tracking flag
         self.enableInstallAttributionTracking = (destinationConfig["enableInstallAttributionTracking"] as? Bool) ?? false
         
-        LoggerAnalytics.debug("AdjustIntegration: Updated configuration - enableInstallAttributionTracking: \(self.enableInstallAttributionTracking)")
+        logger.debug(log: "AdjustIntegration: Updated configuration - enableInstallAttributionTracking: \(self.enableInstallAttributionTracking)")
     }
     
     // MARK: - Optional Methods (implement only if needed)
@@ -111,13 +112,13 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
         // Extract event name
         let eventName = payload.event
         guard !eventName.isEmpty else {
-            LoggerAnalytics.warn("AdjustIntegration: Track event missing event name.")
+            logger.warn(log: "AdjustIntegration: Track event missing event name.")
             return
         }
         
         // Use stored eventMap
         guard let adjEventToken = eventMap[eventName], !adjEventToken.isEmpty else {
-            LoggerAnalytics.debug("AdjustIntegration: Dropping track event \(eventName) - no event token mapping found.")
+            logger.debug(log: "AdjustIntegration: Dropping track event \(eventName) - no event token mapping found.")
             return
         }
         
@@ -126,7 +127,7 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
         
         // Create Adjust event
         guard let event = ADJEvent(eventToken: adjEventToken) else {
-            LoggerAnalytics.error("AdjustIntegration: Failed to create ADJEvent for token \(adjEventToken).")
+            logger.error(log: "AdjustIntegration: Failed to create ADJEvent for token \(adjEventToken).", error: nil)
             return
         }
         
@@ -144,7 +145,7 @@ public class AdjustIntegration: NSObject, IntegrationPlugin, StandardIntegration
         
         // Track event
         self.adjustSDKAdapter.track(event: event)
-        LoggerAnalytics.debug("AdjustIntegration: Tracked event \(eventName) with token \(adjEventToken).")
+        logger.debug(log: "AdjustIntegration: Tracked event \(eventName) with token \(adjEventToken).")
     }
     
     public func identify(payload: IdentifyEvent) {
@@ -167,7 +168,7 @@ extension AdjustIntegration {
         self.adjustSDKAdapter.onAttributionChanged?(attribution)
         
         guard enableInstallAttributionTracking else {
-            LoggerAnalytics.debug("AdjustIntegration: Install attribution tracking is disabled.")
+            logger.debug(log: "AdjustIntegration: Install attribution tracking is disabled.")
             return
         }
         
@@ -186,7 +187,7 @@ extension AdjustIntegration {
             "campaign": campaign.isEmpty ? nil : campaign
         ].compactMapValues { $0 }
         
-        LoggerAnalytics.debug("Install Attributed event properties: \(properties).")
+        logger.debug(log: "Install Attributed event properties: \(properties).")
         
         self.analytics?.track(name: "Install Attributed", properties: properties)
     }
@@ -195,7 +196,7 @@ extension AdjustIntegration {
 // MARK: - Helpers
 extension AdjustIntegration {
     private var mappedAdjustLogLevel: ADJLogLevel {
-        return switch LoggerAnalytics.logLevel {
+        return switch analytics?.configuration.logLevel ?? LogLevel.none {
         case .none: .suppress
         case .error: .error
         case .warn: .warn

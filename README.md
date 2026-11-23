@@ -176,4 +176,4 @@ For more information:
 
 ## Report issues / contribute
 
-This repository only publishes releases; it does not accept pull requests. To report a bug or request a feature, [open an issue](https://github.com/rudderlabs/integration-swift-adjust/issues). See [CONTRIBUTING.md](CONTRIBUTING.md).
+This repository is read-only: it only publishes releases of this package from [rudder-monorepo-swift](https://github.com/rudderlabs/rudder-monorepo-swift). It does not accept issues or pull requests. To report a bug or request a feature, [open an issue in rudder-monorepo-swift](https://github.com/rudderlabs/rudder-monorepo-swift/issues/new/choose). See [CONTRIBUTING.md](CONTRIBUTING.md).
